@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAR Image Classification Using Gabor Feature and K-NN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Print Controls -->
+  <div class="print-controls">
+    <button id="print-button" class="print-button">
+      <i class="fas fa-print mr-2"></i> Export to PDF
+    </button>
+    <button id="language-button" class="language-button">
+      <i class="fas fa-language mr-2"></i> Bahasa Indonesia
+    </button>
+    <button id="fullscreen-button" class="fullscreen-button">
+      <i class="fas fa-expand mr-2"></i> Fullscreen
+    </button>
+  </div>
+  
+  <!-- Right Side Drawer Navigation -->
+  <div class="drawer-toggle" id="drawer-toggle">
+    <i class="fas fa-chevron-left"></i>
+  </div>
+  
+  <div class="side-drawer" id="side-drawer">
+    <div class="drawer-header">
+      <h3 class="text-lg font-semibold text-indigo-700">Table of Contents</h3>
+      <button id="close-drawer" class="text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="drawer-content">
+      <div class="toc-list" id="toc-list">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Legacy Section Navigation (will be hidden via CSS) -->
+  <div class="section-nav" id="section-nav">
+    <!-- Will be populated by JavaScript -->
+  </div>
+
+  <!-- Section 1: Cover (Enhanced) -->
+  <section class="section" id="section-1">
+    <div class="flex flex-col items-center justify-center h-full text-center">
+      <div class="gradient-bg text-white p-8 rounded-lg shadow-lg max-w-4xl w-full relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20">
+          <i class="fas fa-wave-square text-6xl absolute top-10 left-10 rotate-slow"></i>
+          <i class="fas fa-satellite-dish text-5xl absolute bottom-10 right-10 rotate-slow"></i>
+          <i class="fas fa-radar text-4xl absolute top-1/4 right-1/4 rotate-slow"></i>
+          <i class="fas fa-wifi text-5xl absolute bottom-1/4 left-1/4 rotate-slow"></i>
+        </div>
+
+        <h1 class="font-bold mb-4 text-4xl relative z-10">SAR Image Classification Method Based on Gabor Feature and K-NN</h1>
+        <div class="w-32 h-1 bg-white mx-auto my-6"></div>
+        <p class="mb-8 text-xl">Paper Summary Presentation</p>
+
+        <div class="flex justify-center mb-8">
+          <div class="p-6 bg-white bg-opacity-20 rounded-full pulse">
+            <i class="fas fa-satellite text-7xl"></i>
+          </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-8">
+          <div class="bg-white bg-opacity-10 p-5 rounded-lg border border-white border-opacity-20 float">
+            <h2 class="font-semibold mb-2">Original Paper Authors:</h2>
+            <p>Zhiru Wang, Liang Chen, Hao Shi, Baogui Qi, Guanqun Wang</p>
+          </div>
+
+          <div class="bg-white bg-opacity-10 p-5 rounded-lg border border-white border-opacity-20 float" style="animation-delay: 0.5s">
+            <h2 class="font-semibold mb-2">Published in:</h2>
+            <p>2023 IEEE International Conference</p>
+          </div>
+        </div>
+
+        <div class="border-t border-white pt-6 relative">
+          <div class="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent"></div>
+          <h2 class="font-semibold mb-2">Presented by:</h2>
+          <p class="text-2xl font-bold mb-1">Dewa Ketut Satriawan Suditresnajaya</p>
+          <p class="mb-2 text-lg">NIM: 2429101036</p>
+          <div class="flex flex-col md:flex-row justify-center items-center gap-4 mt-4">
+            <div class="bg-white bg-opacity-10 px-4 py-2 rounded-lg">
+              <p>Universitas Pendidikan Ganesha</p>
+            </div>
+            <div class="bg-white bg-opacity-10 px-4 py-2 rounded-lg">
+              <p>Machine Learning Course</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Outline -->
+  <section class="section" id="section-2">
+    <div class="flex flex-col h-full">
+      <h1 class="font-bold mb-6 text-indigo-700">Presentation Outline</h1>
+      <div class="flex-grow flex items-center justify-center">
+        <div class="max-w-3xl w-full">
+          <div class="flex items-center mb-6">
+            <div class="bg-indigo-600 rounded-full w-12 h-12 flex items-center justify-center text-white mr-4">
+              <i class="fas fa-info-circle text-xl"></i>
+            </div>
+            <div>
+              <h2 class="font-semibold">1. Introduction</h2>
+              <p class="text-gray-600">Problem statement and research objectives</p>
+            </div>
+          </div>
+
+          <div class="flex items-center mb-6">
+            <div class="bg-indigo-600 rounded-full w-12 h-12 flex items-center justify-center text-white mr-4">
+              <i class="fas fa-book text-xl"></i>
+            </div>
+            <div>
+              <h2 class="font-semibold">2. Literature Review</h2>
+              <p class="text-gray-600">Review of existing SAR image classification methods</p>
+            </div>
+          </div>
+
+          <div class="flex items-center mb-6">
+            <div class="bg-indigo-600 rounded-full w-12 h-12 flex items-center justify-center text-white mr-4">
+              <i class="fas fa-cogs text-xl"></i>
+            </div>
+            <div>
+              <h2 class="font-semibold">3. Research Methods</h2>
+              <p class="text-gray-600">Gabor feature extraction, PCA, and K-NN classification</p>
+            </div>
+          </div>
+
+          <div class="flex items-center mb-6">
+            <div class="bg-indigo-600 rounded-full w-12 h-12 flex items-center justify-center text-white mr-4">
+              <i class="fas fa-chart-bar text-xl"></i>
+            </div>
+            <div>
+              <h2 class="font-semibold">4. Results and Discussion</h2>
+              <p class="text-gray-600">Experimental results and performance analysis</p>
+            </div>
+          </div>
+
+          <div class="flex items-center">
+            <div class="bg-indigo-600 rounded-full w-12 h-12 flex items-center justify-center text-white mr-4">
+              <i class="fas fa-flag-checkered text-xl"></i>
+            </div>
+            <div>
+              <h2 class="font-semibold">5. Conclusion and Future Work</h2>
+              <p class="text-gray-600">Summary and suggestions for future research</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Introduction (1) -->
+  <section class="section" id="section-3">
+    <div>
+      <h1 class="font-bold mb-6 text-indigo-700">Introduction</h1>
+
+      <div class="flex flex-col md:flex-row gap-8 mb-6">
+        <div class="md:w-1/2">
+          <h2 class="font-semibold mb-3">Background</h2>
+          <ul class="list-disc pl-5 space-y-2 text-gray-700">
+            <li>Synthetic Aperture Radar (SAR) imaging provides high-resolution images regardless of weather or lighting conditions</li>
+            <li>SAR image target classification is crucial for military and civilian applications</li>
+            <li>Applications include marine surveillance, fisheries management, and emergency response</li>
+          </ul>
+
+          <div class="mt-6">
+            <h2 class="font-semibold mb-3">Challenges</h2>
+            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+              <li>Traditional methods have limited accuracy</li>
+              <li>Deep learning methods are computationally intensive and inefficient</li>
+              <li>Need for both high accuracy and efficiency in SAR image classification</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="md:w-1/2 flex flex-col justify-center items-center pt-8">
+          <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+            <div class="text-center mb-4">
+              <i class="fas fa-satellite-dish text-5xl text-indigo-600"></i>
+            </div>
+            <p class="text-center italic text-gray-600">
+              "Fast and accurate target classification is important in both military and civilian fields."
+            </p>
+          </div>
+
+          <div class="mt-8 bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+            <h3 class="font-semibold text-blue-700">Why SAR Imaging?</h3>
+            <p class="text-gray-700">SAR can operate in all weather conditions, day or night, providing consistent imaging capabilities unlike optical systems.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Introduction (2) -->
+  <section class="section" id="section-4">
+    <div>
+      <h1 class="font-bold mb-6 text-indigo-700">Research Problem & Objectives</h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
+          <div class="flex items-center mb-4">
+            <i class="fas fa-exclamation-circle text-3xl text-red-500 mr-3"></i>
+            <h2 class="font-semibold text-red-700">Problem Statement</h2>
+          </div>
+          <ul class="list-disc pl-5 space-y-2 text-gray-700">
+            <li>Traditional machine learning methods for SAR image classification have limited accuracy</li>
+            <li>Deep learning methods achieve high accuracy but suffer from low efficiency</li>
+            <li>There is a need for methods that balance both accuracy and efficiency</li>
+          </ul>
+        </div>
+
+        <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+          <div class="flex items-center mb-4">
+            <i class="fas fa-bullseye text-3xl text-green-500 mr-3"></i>
+            <h2 class="font-semibold text-green-700">Research Objectives</h2>
+          </div>
+          <ul class="list-disc pl-5 space-y-2 text-gray-700">
+            <li>Develop a SAR image classification method that achieves both high accuracy and efficiency</li>
+            <li>Extract effective features using Gabor wavelets</li>
+            <li>Apply dimensionality reduction with PCA</li>
+            <li>Implement an efficient K-NN classifier with appropriate distance metrics</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-8 bg-gray-100 p-6 rounded-lg">
+        <h2 class="font-semibold mb-4 text-center">Proposed Approach</h2>
+        <div class="flex flex-col md:flex-row justify-around items-center">
+          <div class="text-center mb-4 md:mb-0">
+            <div class="bg-indigo-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">
+              <i class="fas fa-wave-square text-indigo-600 text-2xl"></i>
+            </div>
+            <p class="font-medium">Gabor Feature<br>Extraction</p>
+          </div>
+          <i class="fas fa-arrow-right text-gray-400 hidden md:block"></i>
+          <div class="text-center mb-4 md:mb-0">
+            <div class="bg-indigo-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">
+              <i class="fas fa-project-diagram text-indigo-600 text-2xl"></i>
+            </div>
+            <p class="font-medium">Principal Component<br>Analysis (PCA)</p>
+          </div>
+          <i class="fas fa-arrow-right text-gray-400 hidden md:block"></i>
+          <div class="text-center">
+            <div class="bg-indigo-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">
+              <i class="fas fa-sitemap text-indigo-600 text-2xl"></i>
+            </div>
+            <p class="font-medium">K-NN<br>Classification</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Literature Review (1) -->
+  <section class="section" id="section-5">
+    <div>
+      <h1 class="font-bold mb-6 text-indigo-700">Literature Review</h1>
+
+      <div class="mb-6">
+        <h2 class="font-semibold mb-3">Traditional Machine Learning Approaches</h2>
+        <div class="responsive-table">
+          <table class="min-w-full bg-white border border-gray-300 shadow-sm rounded-lg">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="py-2 px-4 border-b">Authors</th>
+                <th class="py-2 px-4 border-b">Method</th>
+                <th class="py-2 px-4 border-b">Key Features</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="py-2 px-4 border-b">Su et al.</td>
+                <td class="py-2 px-4 border-b">Conditional Random Fields</td>
+                <td class="py-2 px-4 border-b">Multi-scale region connection calculus model</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4 border-b">Karine et al.</td>
+                <td class="py-2 px-4 border-b">Saliency Attention with SIFT</td>
+                <td class="py-2 px-4 border-b">Combines visual saliency with SIFT keypoints</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4 border-b">Authors</td>
+                <td class="py-2 px-4 border-b">PSIFT</td>
+                <td class="py-2 px-4 border-b">Polar scale-invariant feature transform with SAR-DM matching</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4 border-b">Feng et al.</td>
+                <td class="py-2 px-4 border-b">Bag-of-Words (BOV)</td>
+                <td class="py-2 px-4 border-b">Based on clonal selection algorithm</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500 mb-6">
+        <div class="flex items-start">
+          <i class="fas fa-lightbulb text-2xl text-yellow-500 mr-3 mt-1"></i>
+          <div>
+            <h3 class="font-semibold text-yellow-700">Limitation of Traditional Methods</h3>
+            <p class="text-gray-700">These algorithms can realize classification tasks to a certain extent, but their accuracy is not satisfactory for many applications.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Remaining sections (6-16) continue here -->
+  <!-- Section 6: Literature Review (2) -->
+  <section class="section" id="section-6">
+    <div>
+      <h1 class="font-bold mb-6 text-indigo-700">Literature Review (Cont.)</h1>
+
+      <div class="mb-6">
+        <h2 class="font-semibold mb-3">Deep Learning Approaches</h2>
+        <div class="responsive-table">
+          <table class="min-w-full bg-white border border-gray-300 shadow-sm rounded-lg">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="py-2 px-4 border-b">Authors</th>
+                <th class="py-2 px-4 border-b">Method</th>
+                <th class="py-2 px-4 border-b">Key Features</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="py-2 px-4 border-b">David et al.</td>
+                <td class="py-2 px-4 border-b">Convolutional Neural Networks (CNN)</td>
+                <td class="py-2 px-4 border-b">Trained directly on SAR images for ATR</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4 border-b">Ali et al.</td>
+                <td class="py-2 px-4 border-b">CNN with Auto-encoder</td>
+                <td class="py-2 px-4 border-b">Using convolutional auto-encoder for feature extraction</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4 border-b">Chen et al.</td>
+                <td class="py-2 px-4 border-b">CNN with Sparse Auto-encoder</td>
+                <td class="py-2 px-4 border-b">Combines CNN with sparse auto-encoder for feature learning</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500 mb-6">
+        <div class="flex items-start">
+          <i class="fas fa-lightbulb text-2xl text-yellow-500 mr-3 mt-1"></i>
+          <div>
+            <h3 class="font-semibold text-yellow-700">Limitation of Deep Learning Methods</h3>
+            <p class="text-gray-700">While these methods achieve high accuracy, they suffer from low efficiency due to their computational complexity.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 bg-indigo-50 p-4 rounded-lg">
+        <h3 class="text-lg font-semibold text-indigo-700 mb-2">Research Gap</h3>
+        <div class="flex flex-col md:flex-row">
+          <div class="md:w-1/2 md:border-r border-indigo-200 pr-4 mb-4 md:mb-0">
+            <h4 class="font-medium text-indigo-600 mb-1">Current Methods</h4>
+            <ul class="list-disc pl-5 text-gray-700 text-sm">
+              <li>Trade-off between accuracy and efficiency</li>
+              <li>Either high accuracy with low efficiency (deep learning)</li>
+              <li>Or moderate accuracy with high efficiency (traditional)</li>
+            </ul>
+          </div>
+          <div class="md:w-1/2 md:pl-4">
+            <h4 class="font-medium text-indigo-600 mb-1">Need for Research</h4>
+            <ul class="list-disc pl-5 text-gray-700 text-sm">
+              <li>Methods that achieve both high accuracy and efficiency</li>
+              <li>Feature extraction techniques that capture important characteristics</li>
+              <li>Efficient classification algorithms suitable for SAR images</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: Research Methods (1) -->
+  <section class="section" id="section-7">
+    <div>
+      <h1 class="font-bold mb-6 text-indigo-700">Research Methods</h1>
+
+      <div class="mb-6">
+        <h2 class="font-semibold mb-3">Overview of the Proposed Method</h2>
+        <div class="bg-white p-4 rounded-lg shadow-md">
+          <img src="assets/figure-1.png" alt="Overview of the proposed method" class="w-2/3 mx-auto rounded mb-4">
+          <p class="text-center text-gray-600 italic">Figure 1: Flow chart of the proposed method</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div class="bg-blue-50 p-4 rounded-lg shadow-md">
+          <div class="bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center mb-3">
+            <span class="text-xl font-bold text-blue-600">1</span>
+          </div>
+          <h3 class="font-semibold text-blue-700 mb-2">Gabor Feature Extraction</h3>
+          <p class="text-gray-700 text-sm">Extract multi-scale Gabor features from SAR images at seven scales and ten orientations.</p>
+        </div>
+
+        <div class="bg-blue-50 p-4 rounded-lg shadow-md">
+          <div class="bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center mb-3">
+            <span class="text-xl font-bold text-blue-600">2</span>
+          </div>
+          <h3 class="font-semibold text-blue-700 mb-2">Feature Selection with PCA</h3>
+          <p class="text-gray-700 text-sm">Apply Principal Component Analysis to reduce feature dimensions and avoid the dimensionality disaster.</p>
+        </div>
+
+        <div class="bg-blue-50 p-4 rounded-lg shadow-md">
+          <div class="bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center mb-3">
+            <span class="text-xl font-bold text-blue-600">3</span>
+          </div>
+          <h3 class="font-semibold text-blue-700 mb-2">K-NN Classification</h3>
+          <p class="text-gray-700 text-sm">Train a K-Nearest Neighbor classifier using cosine similarity as the distance metric.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rest of the sections (8-16) -->
+  <!-- Section 8: Research Methods (2) - Gabor Feature Extraction -->
+  <section class="section" id="section-8">
+    <div>
+      <h1 class="font-bold mb-6 text-indigo-700">Gabor Feature Extraction</h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h2 class="font-semibold mb-3">Why Gabor Wavelets?</h2>
+          <div class="bg-gray-50 p-4 rounded-lg shadow-md mb-6">
+            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+              <li>Excellent for extracting local spatial and frequency domain information</li>
+              <li>Fewer data to process compared to other methods, enabling real-time processing</li>
+              <li>Can handle image rotation and deformation, improving system robustness</li>
+              <li>Sensitive to edge features in SAR images</li>
+              <li>Captures spatial localization, orientation selectivity, and spatial frequency selectivity</li>
+            </ul>
+          </div>
+
+          <h2 class="font-semibold mb-3">Implementation Details</h2>
+          <div class="bg-gray-50 p-4 rounded-lg shadow-md">
+            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+              <li>Gabor kernels set at seven scales and ten orientations</li>
+              <li>Image size: 128 × 128 pixels</li>
+              <li>Images divided into sub-graphs of 31 × 31 pixels</li>
+              <li>Energy of each sub-graph calculated</li>
+              <li>Energy matrices combined into a row vector</li>
+              <li>Final feature dimension: 7700</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex flex-col justify-center">
+          <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+            <img src="assets/figure-2.png" alt="Gabor features visualization" class="w-full rounded mb-2">
+            <p class="text-center text-gray-600 italic">Figure 2: 10 orientations of Gabor features</p>
+          </div>
+
+          <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+            <div class="flex items-start">
+              <i class="fas fa-info-circle text-2xl text-blue-500 mr-3 mt-1"></i>
+              <div>
+                <h3 class="font-semibold text-blue-700 mb-1">Gabor Feature Formula</h3>
+                <p class="text-gray-700 text-sm">The Gabor feature extraction is the convolution of the image with the Gabor kernels.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Include remaining sections (9-16) here -->
+  <!-- Section 9: Research Methods (3) - PCA -->
+  <section class="section" id="section-9">
+    <div>
+      <h1 class="font-bold mb-6 text-indigo-700">Principal Component Analysis (PCA)</h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h2 class="font-semibold mb-3">Why PCA?</h2>
+          <div class="bg-gray-50 p-4 rounded-lg shadow-md mb-6">
+            <div class="flex items-start mb-4">
+              <i class="fas fa-exclamation-triangle text-2xl text-yellow-500 mr-3 mt-1"></i>
+              <div>
+                <h3 class="font-semibold text-yellow-700">Dimensionality Disaster</h3>
+                <p class="text-gray-700">When the number of features exceeds a certain threshold, classifier performance degrades rather than improves - known as the "dimensionality disaster" in pattern recognition.</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <i class="fas fa-check-circle text-2xl text-green-500 mr-3 mt-1"></i>
+              <div>
+                <h3 class="font-semibold text-green-700">PCA Solution</h3>
+                <p class="text-gray-700">PCA maps high-dimensional data to low-dimensional space while preserving as much information as possible.</p>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="font-semibold mb-3">Implementation Details</h2>
+          <div class="bg-gray-50 p-4 rounded-lg shadow-md">
+            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+              <li>Original Gabor feature dimension: 7700</li>
+              <li>Applied PCA with 80% compression ratio</li>
+              <li>Reduced feature dimension to 1540</li>
+              <li>Features with higher distinction retained with larger weights</li>
+              <li>Features lacking distinction given lower weights</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex flex-col justify-center">
+          <div class="bg-white p-5 rounded-lg shadow-md mb-6">
+            <div class="flex justify-center mb-4">
+              <i class="fas fa-project-diagram text-6xl text-indigo-500"></i>
+            </div>
+            <h3 class="text-center font-semibold text-indigo-700 mb-2">PCA Process</h3>
+            <div class="flex justify-center items-center space-x-4">
+              <div class="text-center">
+                <div class="bg-red-100 rounded-lg p-2 px-4 mb-2">
+                  <span class="font-bold">7700</span>
+                </div>
+                <p class="text-sm text-gray-600">Original<br>Dimension</p>
+              </div>
+              <i class="fas fa-arrow-right text-gray-400"></i>
+              <div class="text-center">
+                <div class="bg-indigo-100 rounded-lg p-2 px-4 mb-2">
+                  <span class="font-bold">PCA</span>
+                </div>
+                <p class="text-sm text-gray-600">80% Compression<br>Ratio</p>
+              </div>
+              <i class="fas fa-arrow-right text-gray-400"></i>
+              <div class="text-center">
+                <div class="bg-green-100 rounded-lg p-2 px-4 mb-2">
+                  <span class="font-bold">1540</span>
+                </div>
+                <p class="text-sm text-gray-600">Reduced<br>Dimension</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500">
+            <div class="flex items-start">
+              <i class="fas fa-lightbulb text-2xl text-yellow-500 mr-3 mt-1"></i>
+              <div>
+                <h3 class="font-semibold text-yellow-700 mb-1">Key Benefits</h3>
+                <p class="text-gray-700">PCA removes redundant features while preserving essential information, improving both classification accuracy and computational efficiency.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 10: Research Methods (4) - K-NN Classifier -->
+  <section class="section" id="section-10">
+    <div>
+      <h1 class="font-bold mb-6 text-indigo-700">K-NN Classification</h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h2 class="font-semibold mb-3">Why K-NN?</h2>
+          <div class="bg-gray-50 p-4 rounded-lg shadow-md mb-6">
+            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+              <li>K-NN depends on neighboring finite samples rather than class fields</li>
+              <li>More suitable for datasets with overlapping or cross-class fields (like MSTAR)</li>
+              <li>Simple implementation yet effective classification</li>
+              <li>Works well with properly selected features</li>
+            </ul>
+          </div>
+
+          <h2 class="font-semibold mb-3">Distance Metric: Cosine Similarity</h2>
+          <div class="bg-gray-50 p-4 rounded-lg shadow-md">
+            <div class="bg-white p-3 rounded border border-gray-200 mb-4">
+              <p class="text-center font-mono">
+                similarity = cos(θ) = (A × B) / (||A|| ||B||)
+              </p>
+            </div>
+            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+              <li>Cosine similarity focuses on orientation differences rather than absolute values</li>
+              <li>More suitable for SAR image data diversity than Euclidean or Minkowski distance</li>
+              <li>Measures the cosine of the angle between two vectors (feature sets)</li>
+              <li>Values range from -1 (opposite) to 1 (same direction)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex flex-col justify-center">
+          <div class="bg-white p-5 rounded-lg shadow-md mb-6">
+            <h3 class="text-center font-semibold text-indigo-700 mb-4">K-NN Classification Process</h3>
+            <div class="flex justify-center mb-6">
+              <i class="fas fa-sitemap text-6xl text-indigo-500"></i>
+            </div>
+            <div class="space-y-3">
+              <div class="flex items-center">
+                <div class="bg-indigo-100 rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                  <span class="font-bold">1</span>
+                </div>
+                <p class="text-gray-700">Calculate cosine similarity between test sample and all training samples</p>
+              </div>
+              <div class="flex items-center">
+                <div class="bg-indigo-100 rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                  <span class="font-bold">2</span>
+                </div>
+                <p class="text-gray-700">Identify k nearest neighbors based on similarity values</p>
+              </div>
+              <div class="flex items-center">
+                <div class="bg-indigo-100 rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                  <span class="font-bold">3</span>
+                </div>
+                <p class="text-gray-700">Classify test sample based on majority class among neighbors</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+            <div class="flex items-start">
+              <i class="fas fa-cog text-2xl text-green-500 mr-3 mt-1"></i>
+              <div>
+                <h3 class="font-semibold text-green-700 mb-1">Implementation Detail</h3>
+                <p class="text-gray-700">The number of neighbors (k) was set to 10 through cross-validation to achieve optimal performance.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 11: Results and Discussion (1) -->
+  <section class="section" id="section-11">
+    <div>
+      <h1 class="font-bold mb-6 text-indigo-700">Results and Discussion</h1>
+
+      <div class="mb-6">
+        <h2 class="font-semibold mb-3">Dataset: MSTAR</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-gray-50 p-4 rounded-lg shadow-md">
+            <h3 class="font-semibold text-gray-700 mb-2">Dataset Description</h3>
+            <ul class="list-disc pl-5 space-y-1 text-gray-700">
+              <li>MSTAR (Moving and Stationary Target Acquisition and Recognition)</li>
+              <li>Three classes of tank targets: BMP2, BTR70, and T72</li>
+              <li>Images captured under different depression angles</li>
+              <li>Full 0° to 360° orientation coverage</li>
+            </ul>
+          </div>
+
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-gray-50 py-2 px-4 border-b">
+              <h3 class="font-semibold text-gray-700">Dataset Distribution</h3>
+            </div>
+            <div class="responsive-table">
+              <table class="min-w-full">
+                <thead>
+                  <tr class="bg-gray-100">
+                    <th class="py-2 px-4 border-b text-left">Class Type</th>
+                    <th class="py-2 px-4 border-b text-center">Training Samples</th>
+                    <th class="py-2 px-4 border-b text-center">Testing Samples</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="py-2 px-4 border-b">BMP2</td>
+                    <td class="py-2 px-4 border-b text-center">698</td>
+                    <td class="py-2 px-4 border-b text-center">587</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 px-4 border-b">BTR70</td>
+                    <td class="py-2 px-4 border-b text-center">233</td>
+                    <td class="py-2 px-4 border-b text-center">196</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 px-4 border-b">T72</td>
+                    <td class="py-2 px-4 border-b text-center">691</td>
+                    <td class="py-2 px-4 border-b text-center">582</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <h2 class="font-semibold mb-3">Sample Images</h2>
+        <div class="bg-white p-4 rounded-lg shadow-md">
+          <div class="grid grid-cols-3 gap-4">
+            <div class="text-center">
+              <img src="assets/bmp2.png" alt="BMP2 sample" class="mx-auto rounded mb-2 w-auto h-24">
+              <p class="font-semibold text-gray-700">BMP2</p>
+            </div>
+            <div class="text-center">
+              <img src="assets/btr70.png" alt="BTR70 sample" class="mx-auto rounded mb-2 w-auto h-24">
+              <p class="font-semibold text-gray-700">BTR70</p>
+            </div>
+            <div class="text-center">
+              <img src="assets/t72.png" alt="T72 sample" class="mx-auto rounded mb-2 w-auto h-24">
+              <p class="font-semibold text-gray-700">T72</p>
+            </div>
+          </div>
+          <p class="text-center text-gray-600 italic mt-2">Figure 3: Optical and SAR images of three types of tanks in MSTAR</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 12: Results and Discussion (2) -->
+  <section class="section" id="section-12">
+    <div>
+      <h1 class="font-bold mb-6 text-indigo-700">Parameter Tuning Results</h1>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div>
+          <h2 class="font-semibold mb-3">Gabor Scale Performance</h2>
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="responsive-table">
+              <table class="min-w-full">
+                <thead>
+                  <tr class="bg-gray-100">
+                    <th class="py-2 px-3 border-b">Scale</th>
+                    <th class="py-2 px-3 border-b">BMP2, %</th>
+                    <th class="py-2 px-3 border-b">BTR70, %</th>
+                    <th class="py-2 px-3 border-b">T72, %</th>
+                    <th class="py-2 px-3 border-b">Accuracy, %</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="py-2 px-3 border-b">5 × 10</td>
+                    <td class="py-2 px-3 border-b">93.53</td>
+                    <td class="py-2 px-3 border-b">92.86</td>
+                    <td class="py-2 px-3 border-b">99.83</td>
+                    <td class="py-2 px-3 border-b">96.12</td>
+                  </tr>
+                  <tr class="bg-green-50">
+                    <td class="py-2 px-3 border-b font-medium">7 × 10</td>
+                    <td class="py-2 px-3 border-b font-medium">93.53</td>
+                    <td class="py-2 px-3 border-b font-medium">97.45</td>
+                    <td class="py-2 px-3 border-b font-medium">99.83</td>
+                    <td class="py-2 px-3 border-b font-medium">96.78</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 px-3 border-b">9 × 10</td>
+                    <td class="py-2 px-3 border-b">92.85</td>
+                    <td class="py-2 px-3 border-b">96.94</td>
+                    <td class="py-2 px-3 border-b">99.83</td>
+                    <td class="py-2 px-3 border-b">96.41</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">Table 2: Classification results using Gabor features at different scales</p>
+        </div>
+
+        <div>
+          <h2 class="font-semibold mb-3">Distance Metric Performance</h2>
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="responsive-table">
+              <table class="min-w-full">
+                <thead>
+                  <tr class="bg-gray-100">
+                    <th class="py-2 px-3 border-b">Method</th>
+                    <th class="py-2 px-3 border-b">BMP2, %</th>
+                    <th class="py-2 px-3 border-b">BTR70, %</th>
+                    <th class="py-2 px-3 border-b">T72, %</th>
+                    <th class="py-2 px-3 border-b">Accuracy, %</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="py-2 px-3 border-b">Fine KNN (Euclidean)</td>
+                    <td class="py-2 px-3 border-b">80.92</td>
+                    <td class="py-2 px-3 border-b">78.57</td>
+                    <td class="py-2 px-3 border-b">100</td>
+                    <td class="py-2 px-3 border-b">88.72</td>
+                  </tr>
+                  <tr class="bg-green-50">
+                    <td class="py-2 px-3 border-b font-medium">Cosine KNN (Cosine)</td>
+                    <td class="py-2 px-3 border-b font-medium">99.15</td>
+                    <td class="py-2 px-3 border-b font-medium">98.47</td>
+                    <td class="py-2 px-3 border-b font-medium">100</td>
+                    <td class="py-2 px-3 border-b font-medium">99.41</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 px-3 border-b">Cubic KNN (Minkowski)</td>
+                    <td class="py-2 px-3 border-b">66.95</td>
+                    <td class="py-2 px-3 border-b">55.10</td>
+                    <td class="py-2 px-3 border-b">100</td>
+                    <td class="py-2 px-3 border-b">79.34</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">Table 3: Classification results with different distance calculation methods</p>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <h2 class="font-semibold mb-3">PCA Compression Ratio Results</h2>
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="responsive-table">
+            <table class="min-w-full">
+              <thead>
+                <tr class="bg-gray-100">
+                  <th class="py-2 px-4 border-b">Compression ratio, %</th>
+                  <th class="py-2 px-4 border-b">BMP2, %</th>
+                  <th class="py-2 px-4 border-b">BTR70, %</th>
+                  <th class="py-2 px-4 border-b">T72, %</th>
+                  <th class="py-2 px-4 border-b">Accuracy, %</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="py-2 px-4 border-b">75</td>
+                  <td class="py-2 px-4 border-b">98.98</td>
+                  <td class="py-2 px-4 border-b">95.92</td>
+                  <td class="py-2 px-4 border-b">100</td>
+                  <td class="py-2 px-4 border-b">98.97</td>
+                </tr>
+                <tr class="bg-green-50">
+                  <td class="py-2 px-4 border-b font-medium">80</td>
+                  <td class="py-2 px-4 border-b font-medium">99.15</td>
+                  <td class="py-2 px-4 border-b font-medium">98.47</td>
+                  <td class="py-2 px-4 border-b font-medium">100</td>
+                  <td class="py-2 px-4 border-b font-medium">99.41</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-4 border-b">85</td>
+                  <td class="py-2 px-4 border-b">98.47</td>
+                  <td class="py-2 px-4 border-b">98.98</td>
+                  <td class="py-2 px-4 border-b">100</td>
+                  <td class="py-2 px-4 border-b">99.19</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-4 border-b">90</td>
+                  <td class="py-2 px-4 border-b">97.27</td>
+                  <td class="py-2 px-4 border-b">98.98</td>
+                  <td class="py-2 px-4 border-b">100</td>
+                  <td class="py-2 px-4 border-b">98.68</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-4 border-b">95</td>
+                  <td class="py-2 px-4 border-b">93.02</td>
+                  <td class="py-2 px-4 border-b">88.76</td>
+                  <td class="py-2 px-4 border-b">100</td>
+                  <td class="py-2 px-4 border-b">95.38</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-4 border-b">disabled</td>
+                  <td class="py-2 px-4 border-b">93.53</td>
+                  <td class="py-2 px-4 border-b">97.45</td>
+                  <td class="py-2 px-4 border-b">99.83</td>
+                  <td class="py-2 px-4 border-b">96.78</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="text-sm text-gray-600 mt-2">Table 4: Classification results in different compression ratio of PCA</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sections 13-15 follow the same pattern, continuing with section-13, section-14, section-15 -->
+  <!-- Section 13: Results and Discussion (3) -->
+  <section class="section" id="section-13">
+    <div>
+      <h1 class="font-bold mb-6 text-indigo-700">Comparison with Other Methods</h1>
+
+      <div class="mb-8">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="responsive-table">
+            <table class="min-w-full">
+              <thead>
+                <tr class="bg-gray-100">
+                  <th class="py-2 px-4 border-b">Method</th>
+                  <th class="py-2 px-4 border-b">BMP2, %</th>
+                  <th class="py-2 px-4 border-b">BTR70, %</th>
+                  <th class="py-2 px-4 border-b">T72, %</th>
+                  <th class="py-2 px-4 border-b">Accuracy, %</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="py-2 px-4 border-b">SFA [8]</td>
+                  <td class="py-2 px-4 border-b">93.87</td>
+                  <td class="py-2 px-4 border-b">97.96</td>
+                  <td class="py-2 px-4 border-b">96.39</td>
+                  <td class="py-2 px-4 border-b">95.75</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-4 border-b">HPSMCF [9]</td>
+                  <td class="py-2 px-4 border-b">85.50</td>
+                  <td class="py-2 px-4 border-b">98.00</td>
+                  <td class="py-2 px-4 border-b">91.20</td>
+                  <td class="py-2 px-4 border-b">89.72</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-4 border-b">Shape Context [10]</td>
+                  <td class="py-2 px-4 border-b">94.84</td>
+                  <td class="py-2 px-4 border-b">90.63</td>
+                  <td class="py-2 px-4 border-b">97.69</td>
+                  <td class="py-2 px-4 border-b">95.45</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-4 border-b">CPD [11]</td>
+                  <td class="py-2 px-4 border-b">92.78</td>
+                  <td class="py-2 px-4 border-b">94.39</td>
+                  <td class="py-2 px-4 border-b">91.33</td>
+                  <td class="py-2 px-4 border-b">92.83</td>
+                </tr>
+                <tr class="bg-green-50">
+                  <td class="py-2 px-4 border-b font-medium">Proposed Method</td>
+                  <td class="py-2 px-4 border-b font-medium">99.15</td>
+                  <td class="py-2 px-4 border-b font-medium">98.47</td>
+                  <td class="py-2 px-4 border-b font-medium">100</td>
+                  <td class="py-2 px-4 border-b font-medium">99.41</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="text-sm text-gray-600 mt-2">Table 5: Experimental results in different method of 3 classes SAR image classification</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h2 class="font-semibold mb-3">Results Analysis</h2>
+          <div class="bg-gray-50 p-4 rounded-lg shadow-md">
+            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+              <li>The proposed method achieved the highest overall accuracy at 99.41%</li>
+              <li>Next best method was SFA at 95.75% (3.66% lower)</li>
+              <li>Perfect classification (100%) for T72 class</li>
+              <li>BMP2 and BTR70 achieved 99.15% and 98.47% accuracy, respectively</li>
+              <li>Significant improvement over all compared methods</li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="font-semibold mb-3">Performance Advantages</h2>
+          <div class="space-y-4">
+            <div class="bg-indigo-50 p-4 rounded-lg border-l-4 border-indigo-500">
+              <div class="flex items-start">
+                <i class="fas fa-check-circle text-2xl text-indigo-500 mr-3 mt-1"></i>
+                <div>
+                  <h3 class="font-semibold text-indigo-700 mb-1">Feature Quality</h3>
+                  <p class="text-gray-700">Gabor features effectively capture the edge texture characteristics of SAR targets.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-indigo-50 p-4 rounded-lg border-l-4 border-indigo-500">
+              <div class="flex items-start">
+                <i class="fas fa-check-circle text-2xl text-indigo-500 mr-3 mt-1"></i>
+                <div>
+                  <h3 class="font-semibold text-indigo-700 mb-1">Dimension Reduction</h3>
+                  <p class="text-gray-700">PCA with 80% compression ratio optimally preserved important features while removing redundant ones.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-indigo-50 p-4 rounded-lg border-l-4 border-indigo-500">
+              <div class="flex items-start">
+                <i class="fas fa-check-circle text-2xl text-indigo-500 mr-3 mt-1"></i>
+                <div>
+                  <h3 class="font-semibold text-indigo-700 mb-1">Classification Algorithm</h3>
+                  <p class="text-gray-700">Cosine K-NN is particularly well-suited for SAR image classification with overlapping class fields.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 14: Results and Discussion (4) -->
+  <section class="section" id="section-14">
+    <div>
+      <h1 class="font-bold mb-6 text-indigo-700">Performance Analysis</h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div>
+          <h2 class="font-semibold mb-3">Accuracy Analysis</h2>
+          <div class="bg-white p-3 rounded-lg shadow-md flex items-center justify-center">
+            <div class="text-center">
+              <div class="inline-block rounded-full bg-indigo-100 p-5 mb-4">
+                <i class="fas fa-chart-line text-5xl text-indigo-600"></i>
+              </div>
+              <div class="text-center">
+                <span class="text-4xl font-bold text-indigo-700">99.41%</span>
+                <p class="text-gray-600">Overall Classification Accuracy</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="font-semibold mb-3">Per-Class Performance</h2>
+          <div class="bg-white p-2 rounded-lg shadow-md">
+            <div class="grid grid-cols-3 gap-4">
+              <div class="text-center">
+                <div class="inline-block rounded-full bg-blue-100 p-2 mb-2">
+                  <i class="fas fa-shield-alt text-xl text-blue-600"></i>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">BMP2</p>
+                  <span class="text-xl font-bold text-blue-700">99.15%</span>
+                </div>
+              </div>
+
+              <div class="text-center">
+                <div class="inline-block rounded-full bg-purple-100 p-2 mb-2">
+                  <i class="fas fa-truck text-xl text-purple-600"></i>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">BTR70</p>
+                  <span class="text-xl font-bold text-purple-700">98.47%</span>
+                </div>
+              </div>
+
+              <div class="text-center">
+                <div class="inline-block rounded-full bg-green-100 p-2 mb-2">
+                  <i class="fas fa-crosshairs text-xl text-green-600"></i>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">T72</p>
+                  <span class="text-xl font-bold text-green-700">100%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h2 class="font-semibold mb-3">Efficiency Analysis</h2>
+          <div class="bg-gray-50 p-3 rounded-lg shadow-md">
+            <div class="mb-3">
+              <h3 class="font-semibold text-gray-700 mb-2">Computational Efficiency</h3>
+              <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                <li>Gabor feature extraction is computationally lightweight</li>
+                <li>PCA reduces dimensionality by 80%, further improving efficiency</li>
+                <li>K-NN classification is simple and fast compared to deep learning methods</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="font-semibold text-gray-700 mb-2">Training Efficiency</h3>
+              <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                <li>No complex training process like in deep learning</li>
+                <li>Feature engineering approach requires less training data</li>
+                <li>Parameter tuning is straightforward and efficient</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="font-semibold mb-3">Key Success Factors</h2>
+          <div class="space-y-3">
+            <div class="bg-green-50 p-3 rounded-lg">
+              <h3 class="font-semibold text-green-700 mb-1">1. Effective Feature Extraction</h3>
+              <p class="text-gray-700 text-sm">Gabor wavelets are particularly suited for capturing the edge and texture characteristics of SAR images. The multi-scale and multi-orientation approach ensures comprehensive feature representation.</p>
+              <h3 class="font-semibold text-green-700 mb-1">2. Optimal Feature Selection</h3>
+              <p class="text-gray-700 text-sm">PCA with 80% compression ratio strikes the perfect balance between dimensionality reduction and information preservation, avoiding the dimensionality disaster.</p>
+              <h3 class="font-semibold text-green-700 mb-1">3. Appropriate Classifier Selection</h3>
+              <p class="text-gray-700 text-sm">K-NN with cosine similarity is well-suited for SAR image classification, particularly for datasets with overlapping class fields like MSTAR.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <!-- Section 15: Conclusion -->
+  <section class="section" id="section-15">
+    <div>
+      <h1 class="font-bold mb-6 text-indigo-700">Conclusion</h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div>
+          <h2 class="font-semibold mb-3">Summary of Contributions</h2>
+          <div class="bg-gray-50 p-4 rounded-lg shadow-md">
+            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+              <li>Proposed a novel SAR image classification method combining Gabor feature extraction, PCA, and K-NN</li>
+              <li>Achieved superior performance in terms of both accuracy (99.41%) and efficiency</li>
+              <li>Successfully balanced the trade-off between accuracy and computational efficiency</li>
+              <li>Demonstrated that feature engineering approach can outperform deep learning methods for SAR image classification</li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="font-semibold mb-3">Key Findings</h2>
+          <div class="space-y-4">
+            <div class="bg-indigo-50 p-4 rounded-lg">
+              <div class="flex items-start">
+                <div class="bg-indigo-100 rounded-full w-8 h-8 flex items-center justify-center mt-1 mr-3 flex-shrink-0">
+                  <i class="fas fa-search text-indigo-600"></i>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-indigo-700 mb-1">Gabor Features</h3>
+                  <p class="text-gray-700 text-sm">Gabor features at seven scales and ten orientations provide optimal representation of SAR image characteristics.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-indigo-50 p-4 rounded-lg">
+              <div class="flex items-start">
+                <div class="bg-indigo-100 rounded-full w-8 h-8 flex items-center justify-center mt-1 mr-3 flex-shrink-0">
+                  <i class="fas fa-compress-alt text-indigo-600"></i>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-indigo-700 mb-1">PCA Compression</h3>
+                  <p class="text-gray-700 text-sm">80% compression ratio provides the best balance between dimension reduction and information preservation.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-indigo-50 p-4 rounded-lg">
+              <div class="flex items-start">
+                <div class="bg-indigo-100 rounded-full w-8 h-8 flex items-center justify-center mt-1 mr-3 flex-shrink-0">
+                  <i class="fas fa-ruler-combined text-indigo-600"></i>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-indigo-700 mb-1">Distance Metric</h3>
+                  <p class="text-gray-700 text-sm">Cosine similarity significantly outperforms Euclidean and Minkowski distances for SAR image classification.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="font-semibold mb-3">Limitations and Future Work</h2>
+        <div class="bg-white p-4 rounded-lg shadow-md">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h3 class="font-semibold text-gray-700 mb-2">Limitations</h3>
+              <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                <li>Tested only on three classes of targets</li>
+                <li>Performance under different noise conditions not explored</li>
+                <li>Limited to SAR imagery, may not generalize to other imaging modalities</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="font-semibold text-gray-700 mb-2">Future Research Directions</h3>
+              <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                <li>Extend the method to more target classes and complex scenarios</li>
+                <li>Investigate robustness against noise and environmental conditions</li>
+                <li>Integrate with other feature types for enhanced performance</li>
+                <li>Explore hybrid approaches combining feature engineering with deep learning</li>
+                <li>Apply to real-time SAR image classification systems</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 16: References -->
+  <section class="section" id="section-16">
+    <div>
+      <h1 class="font-bold mb-6 text-indigo-700">References</h1>
+
+      <div class="bg-white p-4 rounded-lg shadow-md">
+        <ol class="list-decimal pl-6 space-y-1 text-gray-700">
+          <li>Su, X., He, C., Feng, Q., et al.: "A supervised classification method based on conditional random fields with multiscale region connection calculus model for SAR image", IEEE Geosci. Remote Sens. Lett., 2011, 8, (3), pp. 497–501</li>
+          <li>Karine, A., Toumi, A., Khenchaf, A., et al.: "Saliency attention and SIFT keypoints combination for automatic target recognition on MSTAR dataset". IEEE Int. Conf. on Advanced Technologies for Signal and Image Processing – Atsip'2017, Fez, Morroco, 22–24 May 2017</li>
+          <li>Zeng, L., Zhou, D., Liang, J., et al.: "Polar scale-invariant feature transform for synthetic aperture radar image registration", IEEE Geosci. Remote Sens. Lett., 2017, 14, (7), pp. 1101–1105</li>
+          <li>Feng, J., Jiao, L.C., Zhang, X., et al.: "Bag-of-visual-words based on clonal selection algorithm for SAR image classification", IEEE Geosci. Remote Sens. Lett., 2011, 8, (4), pp. 691–695</li>
+          <li>Malmgren-Hansen, D., Engholm, R., Pedersen, M.O.: "Training convolutional neural networks for translational invariance on SAR ATR". Proc. of EUSAR 2016: European Conf. on Synthetic Aperture Radar, Hamburg, Germany, 2016</li>
+          <li>Housseini, A.E., Toumi, A., Khenchaf, A.: "Deep learning for target recognition from SAR images". 2017 Seminar on Detection Systems Architectures and Technologies, Algiers, Algeria, 2017, pp. 1–5</li>
+          <li>Chen, S., Wang, H.: "SAR target recognition based on deep learning". Int. Conf. on Data Science and Advanced Analytics, Paris, France, 2015, pp. 541–547</li>
+          <li>Tao, R., Li, B.: "SAR automatic target recognition based on slow feature analysis". IEEE Int. Conf. on Progress in Informatics and Computing, Shanghai, China, 2016, pp. 40–45</li>
+          <li>Cui, Z., Cao, Z., Yang, J., et al.: "A hierarchical propelled fusion strategy for SAR automatic target recognition", EURASIP J. Wirel. Commun. Netw., 2013, 2013, (1), p. 39</li>
+          <li>Zhou, W., Wang, J., Guan, J.: "An efficient SAR target recognition algorithm based on contour and shape context". Int. Asia-Pacific Conf. on Synthetic Aperture Radar, Seoul, South Korea, 2011, pp. 1–4</li>
+          <li>Ma, C., Wen, G., Huang, X., et al.: "Coherent point drift based scattering center matching method with application to SAR ATR". Progress in Electromagnetic Research Symp., Shanghai, China, 2016, pp. 2231–2235</li>
+        </ol>
+      </div>
+
+      <div class="mt-8 text-center">
+        <div class="inline-block bg-indigo-50 p-5 rounded-lg border border-indigo-100">
+          <h2 class="font-semibold text-indigo-700 mb-2">Thank You!</h2>
+          <p class="text-gray-700">Presented by:</p>
+          <p class="text-lg font-medium text-indigo-800">Dewa Ketut Satriawan Suditresnajaya</p>
+          <p class="text-gray-600">NIM: 2429101036</p>
+          <p class="text-gray-600">Universitas Pendidikan Ganesha</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="translations.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>

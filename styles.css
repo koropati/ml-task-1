@@ -1,0 +1,438 @@
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+/* For screen viewing */
+.section {
+    min-height: 100vh;
+    padding: 3vw;
+    box-sizing: border-box;
+    border-bottom: 1px solid #eee;
+    page-break-after: always;
+    page-break-inside: avoid;
+}
+
+.gradient-bg {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+h1 {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+h2 {
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+}
+
+p,
+li {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+}
+
+.responsive-table {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.responsive-table table {
+    width: 100%;
+    table-layout: auto;
+}
+
+/* Print-specific controls */
+/* Auto-hide print controls */
+.print-controls {
+    position: fixed;
+    top: -60px; /* Start off-screen */
+    right: 10px;
+    z-index: 9999;
+    display: flex;
+    gap: 8px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: top 0.3s ease;
+}
+
+body:hover .print-controls {
+    top: 0; /* Show on body hover */
+}
+
+
+.print-button {
+    background-color: #4f46e5;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.print-button:hover {
+    background-color: #4338ca;
+}
+
+/* Fullscreen button style */
+.fullscreen-button {
+    background-color: #8b5cf6;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.fullscreen-button:hover {
+    background-color: #7c3aed;
+}
+
+/* Hide the old section navigation */
+.section-nav {
+    display: none;
+}
+
+/* .section-nav {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 9999;
+    display: flex;
+    gap: 8px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+} */
+
+.section-button {
+    padding: 5px 10px;
+    background-color: #e5e7eb;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.section-button:hover {
+    background-color: #d1d5db;
+}
+
+.section-button.active {
+    background-color: #4f46e5;
+    color: white;
+}
+
+/* New animated elements for the cover */
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Add these styles to styles.css */
+
+.language-button {
+    background-color: #16a34a;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    margin-left: 8px;
+}
+
+.language-button:hover {
+    background-color: #15803d;
+}
+
+/* Side drawer styles */
+.side-drawer {
+    position: fixed;
+    top: 0;
+    right: -300px; /* Start off-screen */
+    width: 300px;
+    height: 100vh;
+    background-color: white;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 9998;
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.side-drawer.open {
+    right: 0;
+}
+
+.drawer-toggle {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px 5px;
+    border-radius: 8px 0 0 8px;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    z-index: 9997;
+    transition: right 0.3s ease;
+}
+
+.drawer-toggle.open {
+    right: 300px;
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.drawer-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+.toc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.toc-item {
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.toc-item:hover {
+    background-color: #f3f4f6;
+}
+
+.toc-item.active {
+    background-color: #4f46e5;
+    color: white;
+}
+
+.toc-section-title {
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.float {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.rotate-slow {
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* PDF Export Styling - Updated for A4 with reduced margins */
+@media print {
+
+    .print-controls,
+    .section-nav,
+    .side-drawer,
+    .drawer-toggle {
+        display: none !important;
+    }
+
+    body,
+    html {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        background-color: white;
+    }
+
+    /* Base styling for all sections */
+    .section {
+        position: relative;
+        page-break-after: always;
+        page-break-inside: avoid;
+        break-after: page;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        padding: 0.8cm;
+        overflow: hidden;
+        border: none;
+        display: flex !important;
+    }
+
+    /* Special styling for section 1 (cover) - centered content */
+    #section-1 {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5cm;
+        height: 29.7cm;
+    }
+
+    /* Styling for all other sections - top-aligned content */
+    .section:not(#section-1) {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding-top: 0.8cm;
+        height: 29.7cm;
+    }
+
+    .section>div {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .section:last-child {
+        page-break-after: auto;
+    }
+
+    h1 {
+        font-size: 24pt;
+        margin-bottom: 10pt;
+    }
+
+    h2 {
+        font-size: 18pt;
+        margin-bottom: 6pt;
+    }
+
+    p,
+    li {
+        font-size: 12pt;
+        line-height: 1.4;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        page-break-inside: avoid;
+    }
+
+    table {
+        page-break-inside: avoid;
+    }
+
+    .print-controls,
+    .section-nav {
+        display: none !important;
+    }
+
+    /* Force background and table colors to print */
+    .gradient-bg {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        color-adjust: exact;
+        background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    }
+
+    table tr.bg-green-50 {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        color-adjust: exact;
+        background-color: #f0fdf4 !important;
+    }
+
+    table thead tr.bg-gray-100 {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        color-adjust: exact;
+        background-color: #f3f4f6 !important;
+    }
+
+    .bg-red-50,
+    .bg-green-50,
+    .bg-blue-50,
+    .bg-yellow-50,
+    .bg-indigo-50 {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        color-adjust: exact;
+    }
+
+    .bg-red-50 {
+        background-color: #fef2f2 !important;
+    }
+
+    .bg-green-50 {
+        background-color: #f0fdf4 !important;
+    }
+
+    .bg-blue-50 {
+        background-color: #eff6ff !important;
+    }
+
+    .bg-yellow-50 {
+        background-color: #fefce8 !important;
+    }
+
+    .bg-indigo-50 {
+        background-color: #eef2ff !important;
+    }
+
+    /* Don't let table column widths collapse */
+    table {
+        width: 100% !important;
+        table-layout: fixed;
+    }
+
+    /* Disable animations for print */
+    .pulse,
+    .float,
+    .rotate-slow {
+        animation: none !important;
+    }
+
+    /* Ensure proper space between sections */
+    @page {
+        size: A4;
+        margin: 0;
+    }
+}
